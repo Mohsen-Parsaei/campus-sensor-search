@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sensor Search – Digital Twin</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --border: #2a2a3a;
+    --accent: #4f8ef7;
+    --accent2: #7c5cfc;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --good: #22c55e;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+    --good-bg: rgba(34,197,94,0.1);
+    --warn-bg: rgba(245,158,11,0.1);
+    --bad-bg: rgba(239,68,68,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.02em; color: var(--text); }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 8px; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    padding: 6px 12px; border-radius: 6px; transition: all 0.15s;
+  }
+  .nav-links a:hover { background: var(--card); color: var(--text); }
+  .nav-links a.active { background: var(--card); color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    padding: 2.5rem 2rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .hero h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .hero p { font-size: 14px; color: var(--muted); }
+
+  /* SEARCH BAR */
+  .search-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+  }
+  .search-box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus-within { border-color: var(--accent); }
+  .search-icon { color: var(--muted); font-size: 16px; flex-shrink: 0; }
+  .search-box input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 15px;
+  }
+  .search-box input::placeholder { color: var(--muted); }
+  .clear-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 4px;
+    display: none;
+  }
+  .clear-btn:hover { color: var(--text); }
+
+  /* FILTER TABS */
+  .filters {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  .filter-btn {
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* STATS ROW */
+  .stats {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .stat-val { font-size: 22px; font-weight: 600; }
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* RESULTS GRID */
+  .grid-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+  .results-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  /* ROOM CARD */
+  .room-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
+  }
+  .room-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .room-card-head { margin-bottom: 14px; }
+  .room-id { font-size: 11px; color: var(--muted); margin-bottom: 3px; letter-spacing: 0.04em; }
+  .room-name { font-size: 15px; font-weight: 600; }
+  .room-guid { font-size: 11px; color: var(--muted); margin-top: 3px; font-family: monospace; }
+  .room-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+  .tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(79,142,247,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(79,142,247,0.2);
+  }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+  .sensors { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .sensor-box {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .s-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+  .s-val { font-size: 15px; font-weight: 600; }
+  .s-unit { font-size: 10px; color: var(--muted); }
+  .iaq-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-top: 12px;
+    font-weight: 500;
+  }
+  .iaq-good  { background: var(--good-bg);  color: var(--good);  border: 1px solid rgba(34,197,94,0.2); }
+  .iaq-mod   { background: var(--warn-bg);  color: var(--warn);  border: 1px solid rgba(245,158,11,0.2); }
+  .iaq-poor  { background: var(--bad-bg);   color: var(--bad);   border: 1px solid rgba(239,68,68,0.2); }
+  .iaq-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* CO2 bar */
+  .co2-bar-wrap { margin-top: 10px; }
+  .co2-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+  .co2-bar-bg { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .co2-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+
+  /* EMPTY STATE */
+  .empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+  }
+  .empty-icon { font-size: 40px; margin-bottom: 16px; }
+  .empty h3 { font-size: 16px; color: var(--text); margin-bottom: 6px; }
+  .empty p { font-size: 13px; }
+
+  /* SORT */
+  .sort-wrap { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .sort-label { font-size: 12px; color: var(--muted); }
+  .sort-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    outline: none;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Digital <span>Twin</span> &nbsp;|&nbsp; Myllypuro Campus</div>
+  <div class="nav-links">
+    <a href="https://digitaltwin-black.vercel.app/">3D Viewer</a>
+    <a href="https://digitaltwin-black.vercel.app/dashboard.html">Dashboard</a>
+    <a href="#" class="active">Sensor Search</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Sensor Search</h1>
+  <p>Search rooms by name or ID — view live CO2, temperature and occupancy data.</p>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" id="q" placeholder="Search by room name, ID or tag…" oninput="onSearch()" autocomplete="off" />
+    <button class="clear-btn" id="clear-btn" onclick="clearSearch()" title="Clear">&#x2715;</button>
+  </div>
+</div>
+
+<div class="filters">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="setFilter('all', this)">All rooms</button>
+  <button class="filter-btn" onclick="setFilter('good', this)">&#x1F7E2; Good IAQ</button>
+  <button class="filter-btn" onclick="setFilter('mod', this)">&#x1F7E1; Moderate IAQ</button>
+  <button class="filter-btn" onclick="setFilter('poor', this)">&#x1F534; Poor IAQ</button>
+  <button class="filter-btn" onclick="setFilter('occupied', this)">&#x1F465; Occupied</button>
+  <button class="filter-btn" onclick="setFilter('empty', this)">&#x1F6AA; Empty</button>
+  <div class="sort-wrap">
+    <span class="sort-label">Sort:</span>
+    <select class="sort-select" id="sort" onchange="render()">
+      <option value="name">Name</option>
+      <option value="co2">CO2 (high)</option>
+      <option value="temp">Temp (high)</option>
+      <option value="occ">Occupancy</option>
+    </select>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-label">Total Rooms</div>
+    <div class="stat-val" id="st-total">—</div>
+    <div class="stat-sub">monitored spaces</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Avg CO2</div>
+    <div class="stat-val" id="st-co2">—</div>
+    <div class="stat-sub">ppm</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Avg Temperature</div>
+    <div class="stat-val" id="st-temp">—</div>
+    <div class="stat-sub">°C</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Total Occupancy</div>
+    <div class="stat-val" id="st-occ">—</div>
+    <div class="stat-sub">people on floor</div>
+  </div>
+</div>
+
+<div class="grid-wrap">
+  <div class="results-meta" id="meta"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+// --- DATA ---
+// Replace this with a fetch() from your real JSON if available.
+// Structure matches the Haystack-inspired semantic layer from the project.
+const ROOMS = {
+  room_101: { id:"room_101", dis:"Lecture Room 101", tags:["lecture","campus"], geo:{ifc_guid:"3hK9ABC"}, points:{ co2:{val:840,unit:"ppm"}, temp:{val:22.4,unit:"C"}, occ:{val:12,unit:"ppl"} } },
+  room_102: { id:"room_102", dis:"Seminar Room 102", tags:["seminar","campus"], geo:{ifc_guid:"7xP2DEF"}, points:{ co2:{val:620,unit:"ppm"}, temp:{val:21.1,unit:"C"}, occ:{val:5,unit:"ppl"} } },
+  room_201: { id:"room_201", dis:"Open Office 201",  tags:["office","campus"],  geo:{ifc_guid:"9mR4GHI"}, points:{ co2:{val:1100,unit:"ppm"}, temp:{val:23.7,unit:"C"}, occ:{val:30,unit:"ppl"} } },
+  corridor_a:{ id:"corridor_a", dis:"Main Corridor A", tags:["corridor","campus"], geo:{ifc_guid:"2nT6JKL"}, points:{ co2:{val:450,unit:"ppm"}, temp:{val:20.0,unit:"C"}, occ:{val:0,unit:"ppl"} } },
+  lab_301:  { id:"lab_301",  dis:"Computer Lab 301",  tags:["lab","campus"],  geo:{ifc_guid:"5bW8MNO"}, points:{ co2:{val:760,unit:"ppm"}, temp:{val:21.8,unit:"C"}, occ:{val:18,unit:"ppl"} } },
+  lounge_b: { id:"lounge_b", dis:"Student Lounge B",  tags:["lounge","campus"],geo:{ifc_guid:"1cX0PQR"}, points:{ co2:{val:530,unit:"ppm"}, temp:{val:22.0,unit:"C"}, occ:{val:7,unit:"ppl"} } },
+  wc_f1:    { id:"wc_f1",    dis:"Restroom Floor 1",  tags:["wc","campus"],   geo:{ifc_guid:"8dQ3STU"}, points:{ co2:{val:380,unit:"ppm"}, temp:{val:20.5,unit:"C"}, occ:{val:0,unit:"ppl"} } },
+  kitchen_1:{ id:"kitchen_1",dis:"Staff Kitchen",     tags:["kitchen","campus"],geo:{ifc_guid:"4eR7VWX"},points:{ co2:{val:490,unit:"ppm"}, temp:{val:22.9,unit:"C"}, occ:{val:3,unit:"ppl"} } },
+};
+
+let activeFilter = 'all';
+
+function iaq(co2) {
+  if (co2 < 700)  return { label:'Good',     cls:'iaq-good', filter:'good' };
+  if (co2 < 1000) return { label:'Moderate', cls:'iaq-mod',  filter:'mod'  };
+  return              { label:'Poor',     cls:'iaq-poor', filter:'poor' };
+}
+
+function co2Color(co2) {
+  if (co2 < 700)  return '#22c55e';
+  if (co2 < 1000) return '#f59e0b';
+  return '#ef4444';
+}
+
+function co2Pct(co2) {
+  return Math.min(100, Math.round((co2 / 1500) * 100));
+}
+
+function matchesFilter(room) {
+  const co2 = room.points.co2.val;
+  const occ = room.points.occ.val;
+  if (activeFilter === 'all') return true;
+  if (activeFilter === 'good')     return co2 < 700;
+  if (activeFilter === 'mod')      return co2 >= 700 && co2 < 1000;
+  if (activeFilter === 'poor')     return co2 >= 1000;
+  if (activeFilter === 'occupied') return occ > 0;
+  if (activeFilter === 'empty')    return occ === 0;
+  return true;
+}
+
+function cardHTML(r) {
+  const p   = r.points;
+  const q   = iaq(p.co2.val);
+  const pct = co2Pct(p.co2.val);
+  const clr = co2Color(p.co2.val);
+  const tagsHTML = r.tags.map(t => '<span class="tag">'+t+'</span>').join('');
+  return `
+  <div class="room-card">
+    <div class="room-card-head">
+      <div class="room-id">${r.id}</div>
+      <div class="room-name">${r.dis}</div>
+      <div class="room-guid">IFC: ${r.geo.ifc_guid}</div>
+      <div class="room-tags">${tagsHTML}</div>
+    </div>
+    <hr class="divider"/>
+    <div class="sensors">
+      <div class="sensor-box">
+        <div class="s-label">CO2</div>
+        <div class="s-val">${p.co2.val}</div>
+        <div class="s-unit">${p.co2.unit}</div>
+      </div>
+      <div class="sensor-box">
+        <div class="s-label">Temp</div>
+        <div class="s-val">${p.temp.val}</div>
+        <div class="s-unit">${p.temp.unit}</div>
+      </div>
+      <div class="sensor-box">
+        <div class="s-label">Occupancy</div>
+        <div class="s-val">${p.occ.val}</div>
+        <div class="s-unit">${p.occ.unit}</div>
+      </div>
+    </div>
+    <div class="co2-bar-wrap">
+      <div class="co2-bar-label"><span>CO2 level</span><span>${pct}%</span></div>
+      <div class="co2-bar-bg"><div class="co2-bar-fill" style="width:${pct}%;background:${clr}"></div></div>
+    </div>
+    <span class="iaq-badge ${q.cls}"><span class="iaq-dot"></span>Air quality: ${q.label}</span>
+  </div>`;
+}
+
+function getFiltered(q) {
+  const query = q.trim().toLowerCase();
+  return Object.values(ROOMS).filter(r => {
+    const matchQ = !query ||
+      r.id.toLowerCase().includes(query) ||
+      r.dis.toLowerCase().includes(query) ||
+      r.tags.some(t => t.toLowerCase().includes(query));
+    return matchQ && matchesFilter(r);
+  });
+}
+
+function getSorted(rooms) {
+  const s = document.getElementById('sort').value;
+  return [...rooms].sort((a, b) => {
+    if (s === 'co2')  return b.points.co2.val  - a.points.co2.val;
+    if (s === 'temp') return b.points.temp.val - a.points.temp.val;
+    if (s === 'occ')  return b.points.occ.val  - a.points.occ.val;
+    return a.dis.localeCompare(b.dis);
+  });
+}
+
+function updateStats(rooms) {
+  const all = Object.values(ROOMS);
+  document.getElementById('st-total').textContent = all.length;
+  document.getElementById('st-co2').textContent =
+    Math.round(all.reduce((s,r) => s + r.points.co2.val, 0) / all.length);
+  document.getElementById('st-temp').textContent =
+    (all.reduce((s,r) => s + r.points.temp.val, 0) / all.length).toFixed(1);
+  document.getElementById('st-occ').textContent =
+    all.reduce((s,r) => s + r.points.occ.val, 0);
+}
+
+function render() {
+  const q = document.getElementById('q').value;
+  const rooms = getSorted(getFiltered(q));
+  const grid = document.getElementById('grid');
+  const meta = document.getElementById('meta');
+
+  document.getElementById('clear-btn').style.display = q ? 'block' : 'none';
+
+  if (!rooms.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">&#128269;</div><h3>No rooms found</h3><p>Try a different search term or filter.</p></div>';
+    meta.textContent = '';
+    return;
+  }
+
+  meta.textContent = rooms.length + ' room' + (rooms.length !== 1 ? 's' : '') + ' found';
+  grid.innerHTML = rooms.map(cardHTML).join('');
+  updateStats(rooms);
+}
+
+function onSearch() { render(); }
+function clearSearch() { document.getElementById('q').value = ''; render(); }
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+// Initial render
+updateStats(Object.values(ROOMS));
+render();
+</script>
+</body>
+</html>
