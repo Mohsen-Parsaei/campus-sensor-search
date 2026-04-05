@@ -11,7 +11,6 @@
     --card: #1a1a26;
     --border: #2a2a3a;
     --accent: #4f8ef7;
-    --accent2: #7c5cfc;
     --text: #e8e8f0;
     --muted: #8888aa;
     --good: #22c55e;
@@ -22,222 +21,73 @@
     --bad-bg: rgba(239,68,68,0.1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    min-height: 100vh;
-  }
-
-  /* NAV */
-  nav {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-  }
-  .nav-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.02em; color: var(--text); }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .nav-logo { font-size: 15px; font-weight: 600; color: var(--text); }
   .nav-logo span { color: var(--accent); }
   .nav-links { display: flex; gap: 8px; }
-  .nav-links a {
-    color: var(--muted); text-decoration: none; font-size: 13px;
-    padding: 6px 12px; border-radius: 6px; transition: all 0.15s;
-  }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; padding: 6px 12px; border-radius: 6px; transition: all 0.15s; }
   .nav-links a:hover { background: var(--card); color: var(--text); }
   .nav-links a.active { background: var(--card); color: var(--accent); }
-
-  /* HERO */
-  .hero {
-    padding: 2.5rem 2rem 1.5rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .hero h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .live-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; background: rgba(34,197,94,0.12); color: var(--good); border: 1px solid rgba(34,197,94,0.25); padding: 3px 10px; border-radius: 20px; margin-left: 12px; }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--good); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .hero { padding: 2.5rem 2rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .hero-top { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .hero h1 { font-size: 22px; font-weight: 600; }
   .hero p { font-size: 14px; color: var(--muted); }
-
-  /* SEARCH BAR */
-  .search-wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 1.5rem;
-  }
-  .search-box {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    transition: border-color 0.2s;
-  }
+  .search-wrap { max-width: 1100px; margin: 0 auto; padding: 0 2rem 1.5rem; }
+  .search-box { display: flex; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; transition: border-color 0.2s; }
   .search-box:focus-within { border-color: var(--accent); }
-  .search-icon { color: var(--muted); font-size: 16px; flex-shrink: 0; }
-  .search-box input {
-    flex: 1;
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-size: 15px;
-  }
+  .search-box input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-size: 15px; }
   .search-box input::placeholder { color: var(--muted); }
-  .clear-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 18px;
-    line-height: 1;
-    padding: 0 4px;
-    display: none;
-  }
+  .clear-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; padding: 0 4px; display: none; }
   .clear-btn:hover { color: var(--text); }
-
-  /* FILTER TABS */
-  .filters {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 1.5rem;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
+  .filters { max-width: 1100px; margin: 0 auto; padding: 0 2rem 1.5rem; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .filter-label { font-size: 12px; color: var(--muted); margin-right: 4px; }
-  .filter-btn {
-    padding: 5px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: none;
-    color: var(--muted);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
+  .filter-btn { padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--muted); font-size: 12px; cursor: pointer; transition: all 0.15s; }
   .filter-btn:hover { border-color: var(--accent); color: var(--text); }
   .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-  /* STATS ROW */
-  .stats {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 10px;
-  }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-  }
+  .sort-wrap { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .sort-label { font-size: 12px; color: var(--muted); }
+  .sort-select { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 12px; padding: 4px 8px; border-radius: 6px; outline: none; }
+  .stats { max-width: 1100px; margin: 0 auto; padding: 0 2rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
   .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
   .stat-val { font-size: 22px; font-weight: 600; }
   .stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  /* RESULTS GRID */
-  .grid-wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 3rem;
-  }
-  .results-meta {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 14px;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 14px;
-  }
-
-  /* ROOM CARD */
-  .room-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    transition: border-color 0.2s, transform 0.15s;
-    cursor: default;
-  }
+  .grid-wrap { max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem; }
+  .results-meta { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .room-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: border-color 0.2s, transform 0.15s; }
   .room-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .room-card-head { margin-bottom: 14px; }
-  .room-id { font-size: 11px; color: var(--muted); margin-bottom: 3px; letter-spacing: 0.04em; }
+  .room-id { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
   .room-name { font-size: 15px; font-weight: 600; }
-  .room-guid { font-size: 11px; color: var(--muted); margin-top: 3px; font-family: monospace; }
-  .room-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
-  .tag {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    background: rgba(79,142,247,0.12);
-    color: var(--accent);
-    border: 1px solid rgba(79,142,247,0.2);
-  }
+  .room-floor { font-size: 11px; color: var(--muted); margin-top: 3px; }
   .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
   .sensors { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-  .sensor-box {
-    background: var(--surface);
-    border-radius: 8px;
-    padding: 8px 10px;
-    text-align: center;
-  }
+  .sensor-box { background: var(--surface); border-radius: 8px; padding: 8px 10px; text-align: center; }
   .s-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
   .s-val { font-size: 15px; font-weight: 600; }
   .s-unit { font-size: 10px; color: var(--muted); }
-  .iaq-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    margin-top: 12px;
-    font-weight: 500;
-  }
+  .s-na { color: var(--muted); font-size: 13px; }
+  .iaq-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px; margin-top: 12px; font-weight: 500; }
   .iaq-good  { background: var(--good-bg);  color: var(--good);  border: 1px solid rgba(34,197,94,0.2); }
   .iaq-mod   { background: var(--warn-bg);  color: var(--warn);  border: 1px solid rgba(245,158,11,0.2); }
   .iaq-poor  { background: var(--bad-bg);   color: var(--bad);   border: 1px solid rgba(239,68,68,0.2); }
+  .iaq-none  { background: rgba(136,136,170,0.1); color: var(--muted); border: 1px solid rgba(136,136,170,0.2); }
   .iaq-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-
-  /* CO2 bar */
   .co2-bar-wrap { margin-top: 10px; }
   .co2-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 4px; }
   .co2-bar-bg { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .co2-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
-
-  /* EMPTY STATE */
-  .empty {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--muted);
-  }
+  .co2-bar-fill { height: 100%; border-radius: 2px; }
+  .empty { text-align: center; padding: 4rem 2rem; color: var(--muted); grid-column: 1/-1; }
   .empty-icon { font-size: 40px; margin-bottom: 16px; }
   .empty h3 { font-size: 16px; color: var(--text); margin-bottom: 6px; }
-  .empty p { font-size: 13px; }
-
-  /* SORT */
-  .sort-wrap { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-  .sort-label { font-size: 12px; color: var(--muted); }
-  .sort-select {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    outline: none;
-  }
+  .timestamp { font-size: 11px; color: var(--muted); margin-top: 4px; }
 </style>
 </head>
 <body>
-
 <nav>
   <div class="nav-logo">Digital <span>Twin</span> &nbsp;|&nbsp; Myllypuro Campus</div>
   <div class="nav-links">
@@ -248,58 +98,46 @@
 </nav>
 
 <div class="hero">
-  <h1>Sensor Search</h1>
-  <p>Search rooms by name or ID — view live CO2, temperature and occupancy data.</p>
+  <div class="hero-top">
+    <h1>Sensor Search</h1>
+    <span class="live-badge"><span class="live-dot"></span>Live data</span>
+  </div>
+  <p>Real sensor data from Myllypuro Campus &mdash; search 73 monitored spaces by name, ID or type.</p>
+  <div class="timestamp" id="ts"></div>
 </div>
 
 <div class="search-wrap">
   <div class="search-box">
-    <span class="search-icon">&#128269;</span>
-    <input type="text" id="q" placeholder="Search by room name, ID or tag…" oninput="onSearch()" autocomplete="off" />
-    <button class="clear-btn" id="clear-btn" onclick="clearSearch()" title="Clear">&#x2715;</button>
+    <span style="color:var(--muted);font-size:16px;">&#128269;</span>
+    <input type="text" id="q" placeholder="Search by room name or type (e.g. auditorio, jalkaterapia, käytävä)..." oninput="onSearch()" autocomplete="off" />
+    <button class="clear-btn" id="clear-btn" onclick="clearSearch()">&#x2715;</button>
   </div>
 </div>
 
 <div class="filters">
   <span class="filter-label">Filter:</span>
-  <button class="filter-btn active" onclick="setFilter('all', this)">All rooms</button>
-  <button class="filter-btn" onclick="setFilter('good', this)">&#x1F7E2; Good IAQ</button>
-  <button class="filter-btn" onclick="setFilter('mod', this)">&#x1F7E1; Moderate IAQ</button>
-  <button class="filter-btn" onclick="setFilter('poor', this)">&#x1F534; Poor IAQ</button>
-  <button class="filter-btn" onclick="setFilter('occupied', this)">&#x1F465; Occupied</button>
-  <button class="filter-btn" onclick="setFilter('empty', this)">&#x1F6AA; Empty</button>
+  <button class="filter-btn active" onclick="setFilter('all',this)">All rooms</button>
+  <button class="filter-btn" onclick="setFilter('good',this)">&#x1F7E2; Good IAQ</button>
+  <button class="filter-btn" onclick="setFilter('mod',this)">&#x1F7E1; Moderate IAQ</button>
+  <button class="filter-btn" onclick="setFilter('poor',this)">&#x1F534; Poor IAQ</button>
+  <button class="filter-btn" onclick="setFilter('occupied',this)">&#x1F465; Occupied</button>
+  <button class="filter-btn" onclick="setFilter('empty',this)">&#x1F6AA; Empty</button>
   <div class="sort-wrap">
     <span class="sort-label">Sort:</span>
     <select class="sort-select" id="sort" onchange="render()">
       <option value="name">Name</option>
-      <option value="co2">CO2 (high)</option>
-      <option value="temp">Temp (high)</option>
+      <option value="co2">CO2 (high first)</option>
+      <option value="temp">Temp (high first)</option>
       <option value="occ">Occupancy</option>
     </select>
   </div>
 </div>
 
 <div class="stats">
-  <div class="stat-card">
-    <div class="stat-label">Total Rooms</div>
-    <div class="stat-val" id="st-total">—</div>
-    <div class="stat-sub">monitored spaces</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-label">Avg CO2</div>
-    <div class="stat-val" id="st-co2">—</div>
-    <div class="stat-sub">ppm</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-label">Avg Temperature</div>
-    <div class="stat-val" id="st-temp">—</div>
-    <div class="stat-sub">°C</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-label">Total Occupancy</div>
-    <div class="stat-val" id="st-occ">—</div>
-    <div class="stat-sub">people on floor</div>
-  </div>
+  <div class="stat-card"><div class="stat-label">Total Rooms</div><div class="stat-val" id="st-total">73</div><div class="stat-sub">monitored spaces</div></div>
+  <div class="stat-card"><div class="stat-label">Avg CO2</div><div class="stat-val" id="st-co2">—</div><div class="stat-sub">ppm</div></div>
+  <div class="stat-card"><div class="stat-label">Avg Temperature</div><div class="stat-val" id="st-temp">—</div><div class="stat-sub">°C</div></div>
+  <div class="stat-card"><div class="stat-label">Total Occupancy</div><div class="stat-val" id="st-occ">—</div><div class="stat-sub">people on floor</div></div>
 </div>
 
 <div class="grid-wrap">
@@ -308,97 +146,60 @@
 </div>
 
 <script>
-// --- DATA ---
-// Replace this with a fetch() from your real JSON if available.
-// Structure matches the Haystack-inspired semantic layer from the project.
-const ROOMS = {
-  room_101: { id:"room_101", dis:"Lecture Room 101", tags:["lecture","campus"], geo:{ifc_guid:"3hK9ABC"}, points:{ co2:{val:840,unit:"ppm"}, temp:{val:22.4,unit:"C"}, occ:{val:12,unit:"ppl"} } },
-  room_102: { id:"room_102", dis:"Seminar Room 102", tags:["seminar","campus"], geo:{ifc_guid:"7xP2DEF"}, points:{ co2:{val:620,unit:"ppm"}, temp:{val:21.1,unit:"C"}, occ:{val:5,unit:"ppl"} } },
-  room_201: { id:"room_201", dis:"Open Office 201",  tags:["office","campus"],  geo:{ifc_guid:"9mR4GHI"}, points:{ co2:{val:1100,unit:"ppm"}, temp:{val:23.7,unit:"C"}, occ:{val:30,unit:"ppl"} } },
-  corridor_a:{ id:"corridor_a", dis:"Main Corridor A", tags:["corridor","campus"], geo:{ifc_guid:"2nT6JKL"}, points:{ co2:{val:450,unit:"ppm"}, temp:{val:20.0,unit:"C"}, occ:{val:0,unit:"ppl"} } },
-  lab_301:  { id:"lab_301",  dis:"Computer Lab 301",  tags:["lab","campus"],  geo:{ifc_guid:"5bW8MNO"}, points:{ co2:{val:760,unit:"ppm"}, temp:{val:21.8,unit:"C"}, occ:{val:18,unit:"ppl"} } },
-  lounge_b: { id:"lounge_b", dis:"Student Lounge B",  tags:["lounge","campus"],geo:{ifc_guid:"1cX0PQR"}, points:{ co2:{val:530,unit:"ppm"}, temp:{val:22.0,unit:"C"}, occ:{val:7,unit:"ppl"} } },
-  wc_f1:    { id:"wc_f1",    dis:"Restroom Floor 1",  tags:["wc","campus"],   geo:{ifc_guid:"8dQ3STU"}, points:{ co2:{val:380,unit:"ppm"}, temp:{val:20.5,unit:"C"}, occ:{val:0,unit:"ppl"} } },
-  kitchen_1:{ id:"kitchen_1",dis:"Staff Kitchen",     tags:["kitchen","campus"],geo:{ifc_guid:"4eR7VWX"},points:{ co2:{val:490,unit:"ppm"}, temp:{val:22.9,unit:"C"}, occ:{val:3,unit:"ppl"} } },
-};
+const ROOMS = [{"id": "r:1eq_WFYi92sOpYQ6IPK5GT", "dis": "Ruokailutilat 6 hlö", "floor": "Ground Floor", "co2": 390.0, "temp": 22.2, "occ": 1, "humid": null}, {"id": "r:3REiYV$k585PAj4vH_l$yJ", "dis": "Ruokailutilat 6 hlö", "floor": "Ground Floor", "co2": 425.0, "temp": 22.0, "occ": 1, "humid": null}, {"id": "r:2VBKoKYCrFHA7YD2Yz5YHt", "dis": "Käytävä", "floor": "Ground Floor", "co2": null, "temp": 21.9, "occ": null, "humid": null}, {"id": "r:0n4WXPYzTAUPHDjl_ZJc4c", "dis": "Ruokailutilat 25 hlö", "floor": "Ground Floor", "co2": 429.0, "temp": 23.3, "occ": 1, "humid": null}, {"id": "r:0n4WXPYzTAUPHDjl_ZJcvz", "dis": "Ruokailutilat 30 hlö", "floor": "Ground Floor", "co2": 406.0, "temp": 23.1, "occ": 0, "humid": 0.4}, {"id": "r:3REiYV$k585PAj4vH_l$xJ", "dis": "Ruokailutilat 6 hlö", "floor": "Ground Floor", "co2": 396.0, "temp": 22.5, "occ": 1, "humid": null}, {"id": "r:0n4WXPYzTAUPHDjl_ZJc79", "dis": "Ruokailutilat 6 hlö", "floor": "Ground Floor", "co2": 407.0, "temp": 24.9, "occ": 0, "humid": null}, {"id": "r:3REiYV$k585PAj4vH_l$cd", "dis": "Ruokailutilat", "floor": "Ground Floor", "co2": null, "temp": 22.3, "occ": null, "humid": null}, {"id": "r:3VTYFK8vD6zQrOpleLa9QL", "dis": "Kuntosali, kuntoutukseen sopivin laittein", "floor": "Ground Floor", "co2": null, "temp": 21.4, "occ": 0, "humid": null}, {"id": "r:3VTYFK8vD6zQrOpleLa9Rz", "dis": "Luentosali 120 paikkaa", "floor": "Ground Floor", "co2": 405.0, "temp": 20.8, "occ": 0, "humid": 0.3}, {"id": "r:1DLz7Pej9EBA1hiXfC1nVw", "dis": "Optikkomyymälä NT", "floor": "Ground Floor", "co2": 403.0, "temp": 22.5, "occ": 1, "humid": null}, {"id": "r:1jj4UJ9Z51Vf5Aif_RU6nY", "dis": "Optikkomyymälä HIONTA", "floor": "Ground Floor", "co2": 403.0, "temp": 23.2, "occ": 0, "humid": null}, {"id": "r:2w2pefRQvF7h8LEseDEADs", "dis": "Optikkomyymälä", "floor": "Ground Floor", "co2": 402.0, "temp": 21.6, "occ": 1, "humid": null}, {"id": "r:0aCMxuq4v0UuWviG7ktEyv", "dis": "Aistihuone", "floor": "Ground Floor", "co2": 403.0, "temp": 21.3, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqYa", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 408.0, "temp": 21.9, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqYs", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 402.0, "temp": 22.3, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqYx", "dis": "Jalkaterapia, 4 op", "floor": "Ground Floor", "co2": 402.0, "temp": 22.2, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqjU", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 409.0, "temp": 21.6, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqjZ", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 401.0, "temp": 22.0, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqje", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 409.0, "temp": 22.6, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqjz", "dis": "Jalkaterapia, 4 op", "floor": "Ground Floor", "co2": 399.0, "temp": 22.8, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqi2", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 404.0, "temp": 22.6, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqiN", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 402.0, "temp": 22.2, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqiS", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 405.0, "temp": 22.3, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqiX", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 409.0, "temp": 21.2, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqis", "dis": "Jalkaterapia, 2 op", "floor": "Ground Floor", "co2": 406.0, "temp": 22.4, "occ": 0, "humid": null}, {"id": "r:1BZFaUBxbCZQkZ$3PjR_ic", "dis": "Suun hoidon opetusklinikka/ RTG, 3 op", "floor": "Ground Floor", "co2": 398.0, "temp": 21.4, "occ": 0, "humid": null}, {"id": "r:2w2pefRQvF7h8LEseDEA2t", "dis": "Liikelaboratorio, 30 op", "floor": "Ground Floor", "co2": 404.0, "temp": 20.4, "occ": 1, "humid": null}, {"id": "r:1ZghLtgbj2$RBcT74OM5uL", "dis": "Kotikulma, OH", "floor": "Ground Floor", "co2": 402.0, "temp": 21.1, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqmj", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 394.0, "temp": 22.2, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqmn", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 387.0, "temp": 22.3, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqp5", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 391.0, "temp": 22.0, "occ": 1, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqpB", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 383.0, "temp": 22.2, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqpH", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 392.0, "temp": 22.3, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqpd", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 397.0, "temp": 22.4, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqpj", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 399.0, "temp": 22.2, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqpp", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 394.0, "temp": 22.2, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqpv", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 396.0, "temp": 21.9, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqoF", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 392.0, "temp": 21.4, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqbP", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 399.0, "temp": 21.4, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqbc", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 419.0, "temp": 20.8, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqbZ", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 410.0, "temp": 20.8, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqbW", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 385.0, "temp": 21.6, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1Qrynqbj", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 394.0, "temp": 21.5, "occ": 0, "humid": null}, {"id": "r:2QBNHzWJLAYwHk1QrynqWx", "dis": "Positia, terapia, 2 op", "floor": "Ground Floor", "co2": 394.0, "temp": 21.7, "occ": 0, "humid": null}, {"id": "r:0tJDAC8J94BApUpHeb5PSl", "dis": "Positian asiakastilat, terapia, 6 op", "floor": "Ground Floor", "co2": 393.0, "temp": 22.3, "occ": 1, "humid": null}, {"id": "r:2c9k63Vdz5Gxe1vA9WG9f$", "dis": "Demoluokka, 100 op", "floor": "Ground Floor", "co2": 397.0, "temp": 21.6, "occ": 0, "humid": 0.4}, {"id": "r:2w2pefRQvF7h8LEseDEAHg", "dis": "Käytävä", "floor": "Ground Floor", "co2": 405.0, "temp": 22.9, "occ": 1, "humid": null}, {"id": "r:2yMDhecf15ff0Qukb9SbDr", "dis": "Yleisöaula", "floor": "Ground Floor", "co2": 410.0, "temp": 22.3, "occ": 0, "humid": null}, {"id": "r:0u5psq1b94ZBnOoQFbHWM9", "dis": "Avoin opiskelu", "floor": "Ground Floor", "co2": 404.0, "temp": 21.7, "occ": 1, "humid": null}, {"id": "r:2yMDhecf15ff0Qukb9SbDN", "dis": "Auditorio 200 paikkaa", "floor": "Ground Floor", "co2": 401.0, "temp": 21.8, "occ": 0, "humid": 0.3}, {"id": "r:2yMDhecf15ff0Qukb9SbDh", "dis": "Megora (kahvio)", "floor": "Ground Floor", "co2": 403.0, "temp": 23.3, "occ": 1, "humid": null}, {"id": "r:1aoeddt6XCbRwVKzz4QV3G", "dis": "Avoin opiskelu", "floor": "Ground Floor", "co2": null, "temp": 21.0, "occ": null, "humid": null}, {"id": "r:14AanotUb56OX4oFKEkZAD", "dis": "Kerrosjakamo", "floor": "Ground Floor", "co2": null, "temp": 22.9, "occ": null, "humid": null}, {"id": "r:0AFtVFUAT3oeY3m_jNfGNO", "dis": "Kompressorihuone", "floor": "Ground Floor", "co2": null, "temp": 19.0, "occ": null, "humid": null}, {"id": "r:2w2pefRQvF7h8LEseDEA3N", "dis": "Varasto, Positia, 6op", "floor": "Ground Floor", "co2": null, "temp": 19.9, "occ": null, "humid": null}, {"id": "r:3g0AzZ12TFUgmccIBr4Z_o", "dis": "Opetusklinikan varasto, 3 op", "floor": "Ground Floor", "co2": null, "temp": 20.1, "occ": null, "humid": null}, {"id": "r:2w2pefRQvF7h8LEseDEAEa", "dis": "Suun hoidon opetusklinikka, n.50 op", "floor": "Ground Floor", "co2": 329.0, "temp": 20.8, "occ": null, "humid": null}, {"id": "r:0b7TCU0753xhUs$7Y7EImb", "dis": "Vahtimestari", "floor": "Ground Floor", "co2": null, "temp": 22.0, "occ": null, "humid": null}, {"id": "r:3PgHyWWTLAH8UmHTd2JIjJ", "dis": "Sähköt.", "floor": "Ground Floor", "co2": null, "temp": 23.1, "occ": null, "humid": null}, {"id": "r:27GLV1F0X8jAWU3Z5BzTKG", "dis": "Iso auditorio, 275 paikkaa", "floor": "Ground Floor", "co2": 436.2, "temp": 21.3, "occ": null, "humid": null}, {"id": "r:0DgIkDS1L16xn7RbMF56pT", "dis": "Ryhmätyötilat", "floor": "Ground Floor", "co2": null, "temp": 23.6, "occ": null, "humid": null}, {"id": "r:0DgIkDS1L16xn7RbMF56iX", "dis": "Ryhmätyötilat 4 op.", "floor": "Ground Floor", "co2": null, "temp": 26.1, "occ": null, "humid": null}, {"id": "r:0DgIkDS1L16xn7RbMF56is", "dis": "Ryhmätyötilat 4 op.", "floor": "Ground Floor", "co2": null, "temp": 25.3, "occ": null, "humid": null}, {"id": "r:0DgIkDS1L16xn7RbMF56iu", "dis": "Ryhmätyötilat 4 op.", "floor": "Ground Floor", "co2": null, "temp": 25.5, "occ": null, "humid": null}, {"id": "r:25U6hxzg999P_xLxmcPZvl", "dis": "Ryhmätyötila 5 hlö", "floor": "Ground Floor", "co2": null, "temp": 21.7, "occ": null, "humid": null}, {"id": "r:01KPyvhBT18h8nBc$$5vnu", "dis": "Sähköt.", "floor": "Ground Floor", "co2": null, "temp": 22.9, "occ": null, "humid": null}, {"id": "r:1UiNzKes1ESe6712xGkLq5", "dis": "Kerrosjakamo", "floor": "Ground Floor", "co2": null, "temp": 23.0, "occ": null, "humid": null}, {"id": "r:21VEzGVNLChPldQbstk8LI", "dis": "MAHDOLLINEN LIIKETILA", "floor": "Ground Floor", "co2": null, "temp": null, "occ": 0, "humid": null}, {"id": "r:0bD9V8nDz1BBQRXNl$zLuT", "dis": "Rakennusoikeuteen laskettava kerrosala kerroksissa", "floor": "Ground Floor", "co2": null, "temp": null, "occ": 0, "humid": null}, {"id": "r:0QiU8cOrnAZ8CrW1VZg$UA", "dis": "KERROSALA 1-kerros", "floor": "Ground Floor", "co2": null, "temp": null, "occ": 0, "humid": null}, {"id": "r:3dqv97I1b2JR60ciMz8rBL", "dis": "Huoneistoala 1-kerros", "floor": "Ground Floor", "co2": null, "temp": null, "occ": 0, "humid": null}, {"id": "r:04TkWzwjbD_RcbBsKzMSFX", "dis": "1", "floor": "Ground Floor", "co2": null, "temp": null, "occ": 0, "humid": null}];
 
 let activeFilter = 'all';
 
 function iaq(co2) {
+  if (co2 === null) return { label:'No CO2 data', cls:'iaq-none', filter:'none' };
   if (co2 < 700)  return { label:'Good',     cls:'iaq-good', filter:'good' };
   if (co2 < 1000) return { label:'Moderate', cls:'iaq-mod',  filter:'mod'  };
   return              { label:'Poor',     cls:'iaq-poor', filter:'poor' };
 }
 
 function co2Color(co2) {
+  if (co2 === null) return 'var(--border)';
   if (co2 < 700)  return '#22c55e';
   if (co2 < 1000) return '#f59e0b';
   return '#ef4444';
 }
 
-function co2Pct(co2) {
-  return Math.min(100, Math.round((co2 / 1500) * 100));
-}
-
-function matchesFilter(room) {
-  const co2 = room.points.co2.val;
-  const occ = room.points.occ.val;
+function matchesFilter(r) {
   if (activeFilter === 'all') return true;
-  if (activeFilter === 'good')     return co2 < 700;
-  if (activeFilter === 'mod')      return co2 >= 700 && co2 < 1000;
-  if (activeFilter === 'poor')     return co2 >= 1000;
-  if (activeFilter === 'occupied') return occ > 0;
-  if (activeFilter === 'empty')    return occ === 0;
+  if (activeFilter === 'good')     return r.co2 !== null && r.co2 < 700;
+  if (activeFilter === 'mod')      return r.co2 !== null && r.co2 >= 700 && r.co2 < 1000;
+  if (activeFilter === 'poor')     return r.co2 !== null && r.co2 >= 1000;
+  if (activeFilter === 'occupied') return r.occ !== null && r.occ > 0;
+  if (activeFilter === 'empty')    return r.occ !== null && r.occ === 0;
   return true;
 }
 
 function cardHTML(r) {
-  const p   = r.points;
-  const q   = iaq(p.co2.val);
-  const pct = co2Pct(p.co2.val);
-  const clr = co2Color(p.co2.val);
-  const tagsHTML = r.tags.map(t => '<span class="tag">'+t+'</span>').join('');
-  return `
-  <div class="room-card">
-    <div class="room-card-head">
-      <div class="room-id">${r.id}</div>
-      <div class="room-name">${r.dis}</div>
-      <div class="room-guid">IFC: ${r.geo.ifc_guid}</div>
-      <div class="room-tags">${tagsHTML}</div>
-    </div>
-    <hr class="divider"/>
-    <div class="sensors">
-      <div class="sensor-box">
-        <div class="s-label">CO2</div>
-        <div class="s-val">${p.co2.val}</div>
-        <div class="s-unit">${p.co2.unit}</div>
-      </div>
-      <div class="sensor-box">
-        <div class="s-label">Temp</div>
-        <div class="s-val">${p.temp.val}</div>
-        <div class="s-unit">${p.temp.unit}</div>
-      </div>
-      <div class="sensor-box">
-        <div class="s-label">Occupancy</div>
-        <div class="s-val">${p.occ.val}</div>
-        <div class="s-unit">${p.occ.unit}</div>
-      </div>
-    </div>
-    <div class="co2-bar-wrap">
-      <div class="co2-bar-label"><span>CO2 level</span><span>${pct}%</span></div>
-      <div class="co2-bar-bg"><div class="co2-bar-fill" style="width:${pct}%;background:${clr}"></div></div>
-    </div>
-    <span class="iaq-badge ${q.cls}"><span class="iaq-dot"></span>Air quality: ${q.label}</span>
-  </div>`;
+  const q = iaq(r.co2);
+  const pct = r.co2 ? Math.min(100, Math.round((r.co2 / 1500) * 100)) : 0;
+  const clr = co2Color(r.co2);
+  const co2Str = r.co2 !== null ? r.co2 + ' <span class=\'s-unit\'>ppm</span>' : '<span class=\'s-na\'>—</span>';
+  const tempStr = r.temp !== null ? r.temp + ' <span class=\'s-unit\'>°C</span>' : '<span class=\'s-na\'>—</span>';
+  const occStr = r.occ !== null ? r.occ + ' <span class=\'s-unit\'>ppl</span>' : '<span class=\'s-na\'>—</span>';
+  return '<div class=\'room-card\'>' +
+    '<div class=\'room-id\'>' + r.id + '</div>' +
+    '<div class=\'room-name\'>' + r.dis + '</div>' +
+    '<div class=\'room-floor\'>' + r.floor + '</div>' +
+    '<hr class=\'divider\'/>' +
+    '<div class=\'sensors\'>' +
+      '<div class=\'sensor-box\'><div class=\'s-label\'>CO2</div><div class=\'s-val\'>' + co2Str + '</div></div>' +
+      '<div class=\'sensor-box\'><div class=\'s-label\'>Temp</div><div class=\'s-val\'>' + tempStr + '</div></div>' +
+      '<div class=\'sensor-box\'><div class=\'s-label\'>Occupancy</div><div class=\'s-val\'>' + occStr + '</div></div>' +
+    '</div>' +
+    (r.co2 !== null ? '<div class=\'co2-bar-wrap\'><div class=\'co2-bar-label\'><span>CO2 level</span><span>' + pct + '%</span></div><div class=\'co2-bar-bg\'><div class=\'co2-bar-fill\' style=\'width:' + pct + '%;background:' + clr + '\'></div></div></div>' : '') +
+    '<span class=\'iaq-badge ' + q.cls + '\'><span class=\'iaq-dot\'></span>' + q.label + '</span>' +
+    '</div>';
 }
 
 function getFiltered(q) {
   const query = q.trim().toLowerCase();
-  return Object.values(ROOMS).filter(r => {
-    const matchQ = !query ||
-      r.id.toLowerCase().includes(query) ||
-      r.dis.toLowerCase().includes(query) ||
-      r.tags.some(t => t.toLowerCase().includes(query));
+  return ROOMS.filter(r => {
+    const matchQ = !query || r.dis.toLowerCase().includes(query) || r.id.toLowerCase().includes(query);
     return matchQ && matchesFilter(r);
   });
 }
@@ -406,22 +207,21 @@ function getFiltered(q) {
 function getSorted(rooms) {
   const s = document.getElementById('sort').value;
   return [...rooms].sort((a, b) => {
-    if (s === 'co2')  return b.points.co2.val  - a.points.co2.val;
-    if (s === 'temp') return b.points.temp.val - a.points.temp.val;
-    if (s === 'occ')  return b.points.occ.val  - a.points.occ.val;
+    if (s === 'co2')  return (b.co2 ?? -1) - (a.co2 ?? -1);
+    if (s === 'temp') return (b.temp ?? -1) - (a.temp ?? -1);
+    if (s === 'occ')  return (b.occ ?? -1) - (a.occ ?? -1);
     return a.dis.localeCompare(b.dis);
   });
 }
 
-function updateStats(rooms) {
-  const all = Object.values(ROOMS);
-  document.getElementById('st-total').textContent = all.length;
-  document.getElementById('st-co2').textContent =
-    Math.round(all.reduce((s,r) => s + r.points.co2.val, 0) / all.length);
-  document.getElementById('st-temp').textContent =
-    (all.reduce((s,r) => s + r.points.temp.val, 0) / all.length).toFixed(1);
-  document.getElementById('st-occ').textContent =
-    all.reduce((s,r) => s + r.points.occ.val, 0);
+function updateStats() {
+  const withCo2  = ROOMS.filter(r => r.co2 !== null);
+  const withTemp = ROOMS.filter(r => r.temp !== null);
+  const withOcc  = ROOMS.filter(r => r.occ !== null);
+  document.getElementById('st-total').textContent = ROOMS.length;
+  document.getElementById('st-co2').textContent = withCo2.length ? Math.round(withCo2.reduce((s,r)=>s+r.co2,0)/withCo2.length) : '—';
+  document.getElementById('st-temp').textContent = withTemp.length ? (withTemp.reduce((s,r)=>s+r.temp,0)/withTemp.length).toFixed(1) : '—';
+  document.getElementById('st-occ').textContent = withOcc.length ? withOcc.reduce((s,r)=>s+r.occ,0) : '—';
 }
 
 function render() {
@@ -429,18 +229,14 @@ function render() {
   const rooms = getSorted(getFiltered(q));
   const grid = document.getElementById('grid');
   const meta = document.getElementById('meta');
-
   document.getElementById('clear-btn').style.display = q ? 'block' : 'none';
-
   if (!rooms.length) {
-    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">&#128269;</div><h3>No rooms found</h3><p>Try a different search term or filter.</p></div>';
+    grid.innerHTML = '<div class=\'empty\'><div class=\'empty-icon\'>&#128269;</div><h3>No rooms found</h3><p>Try a different search term or filter.</p></div>';
     meta.textContent = '';
     return;
   }
-
   meta.textContent = rooms.length + ' room' + (rooms.length !== 1 ? 's' : '') + ' found';
   grid.innerHTML = rooms.map(cardHTML).join('');
-  updateStats(rooms);
 }
 
 function onSearch() { render(); }
@@ -452,8 +248,8 @@ function setFilter(f, btn) {
   render();
 }
 
-// Initial render
-updateStats(Object.values(ROOMS));
+document.getElementById('ts').textContent = 'Data snapshot: ' + new Date().toLocaleString('fi-FI', {timeZone:'Europe/Helsinki'});
+updateStats();
 render();
 </script>
 </body>
