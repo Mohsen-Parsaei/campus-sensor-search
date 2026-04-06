@@ -62,7 +62,7 @@ function buildGuidMap() {
   return m;
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // CORS so browser can call this from any origin
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET");
@@ -115,4 +115,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: err.message });
   }
 }
-
